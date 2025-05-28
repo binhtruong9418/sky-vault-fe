@@ -1,21 +1,31 @@
-import { Cloud, Home, FolderOpen, Star, Trash2, Share2, Settings, Plus, Upload } from "lucide-react"
+import * as React from "react"
+import {
+    FolderOpen, Home,
+    LifeBuoy,
+    Send,
+    Share2,
+    Star, Trash2,
+} from "lucide-react"
 
+import {NavMain} from "@/components/nav-main"
+import {NavSecondary} from "@/components/nav-secondary"
+import {NavUser} from "@/components/nav-user"
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarRail,
 } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
 
 const data = {
+    user: {
+        name: "shadcn",
+        email: "m@example.com",
+        avatar: "/avatars/shadcn.jpg",
+    },
     navMain: [
         {
             title: "Home",
@@ -45,79 +55,45 @@ const data = {
     ],
     navSecondary: [
         {
-            title: "Settings",
-            url: "/dashboard/settings",
-            icon: Settings,
+            title: "Support",
+            url: "#",
+            icon: LifeBuoy,
+        },
+        {
+            title: "Feedback",
+            url: "#",
+            icon: Send,
         },
     ],
 }
 
-export function AppSidebar() {
+export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar>
-            <SidebarHeader className="border-b border-sidebar-border">
-                <div className="flex items-center gap-2 px-2 py-2">
-                    <Cloud className="h-6 w-6 text-primary" />
-                    <span className="font-semibold text-lg">CloudStore</span>
-                </div>
-                <div className="px-2 space-y-2">
-                    <Button className="w-full justify-start" size="sm">
-                        <Plus className="h-4 w-4 mr-2" />
-                        New
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start" size="sm">
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload
-                    </Button>
-                </div>
-            </SidebarHeader>
-
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {data.navMain.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>Storage</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <div className="px-2 py-2">
-                            <div className="text-xs text-muted-foreground mb-2">2.1 GB of 15 GB used</div>
-                            <div className="w-full bg-muted rounded-full h-2">
-                                <div className="bg-primary h-2 rounded-full" style={{ width: "14%" }}></div>
-                            </div>
-                        </div>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
-
-            <SidebarFooter className="border-t border-sidebar-border">
+        <Sidebar variant="inset" {...props}>
+            <SidebarHeader>
                 <SidebarMenu>
-                    {data.navSecondary.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild>
-                                <a href={item.url}>
-                                    <item.icon />
-                                    <span>{item.title}</span>
-                                </a>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg" asChild>
+                            <a href="#">
+                                <div
+                                    className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-full">
+                                    <img src={"/sky-vault-logo.png"} alt="Sky Vault Logo" className="h-8 w-8 rounded-full"/>
+                                </div>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-medium">Sky Vault</span>
+                                </div>
+                            </a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
                 </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent>
+                <NavMain items={data.navMain}/>
+                <NavSecondary items={data.navSecondary} className="mt-auto"/>
+            </SidebarContent>
+            <SidebarFooter>
+                <NavUser user={data.user}/>
             </SidebarFooter>
-            <SidebarRail />
         </Sidebar>
     )
 }
