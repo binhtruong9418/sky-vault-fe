@@ -6,11 +6,27 @@ import {NoAuthGuard} from "@/routes/middleware/NoAuthGuard.tsx";
 import NotFoundPage from "@/pages/not-found";
 import LandingLayout from "@/components/layout/LandingLayout.tsx";
 import DashboardLayout from "@/components/layout/DashboardLayout.tsx";
+import LandingPage from "@/pages/landing.tsx";
+import PublicLayout from "@/components/layout/PublicLayout.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <LandingLayout />,
+        children: [
+            {
+                path: "/",
+                element: (
+                    <NoAuthGuard>
+                        <LandingPage />
+                    </NoAuthGuard>
+                )
+            }
+        ]
+    },
+    {
+        path: "/",
+        element: <PublicLayout />,
         children: publicRoutes.map((route) => ({
             ...route,
             element: (

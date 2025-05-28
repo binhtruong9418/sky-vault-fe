@@ -10,7 +10,7 @@ interface GuestGuardProps {
 export const NoAuthGuard = (
     {
         children,
-        redirectPath = '/home'
+        redirectPath = '/dashboard'
     }: GuestGuardProps) => {
     const location = useLocation();
     const pathname = location.pathname;
